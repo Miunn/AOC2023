@@ -10,31 +10,40 @@ def checkBlue(col):
 def checkGreen(col):
     return int(col.strip().split(' ')[0]) <= 13
 
+def amountRed(col):
+    return int(col.strip().split(' ')[0])
+
+def amountBlue(col):
+    return int(col.strip().split(' ')[0])
+
+def amountGreen(col):
+    return int(col.strip().split(' ')[0])
+
 games = []
 
 for l in lines:
     gid = int(l.split(':')[0].split(' ')[1])
     sets = l.split(':')[1].split(';')
     possible = True
+    minRed = 0
+    minBlue = 0
+    minGreen = 0
     for s in sets:
         if not possible:
             break
         cols = s.split(',')
 
+
         for c in cols:
-            if 'red' in c and not checkRed(c):
-                possible = False
-                break
+            if 'red' in c and amountRed(c) > minRed:
+                minRed = amountRed(c)
 
-            if 'blue' in c and not checkBlue(c):
-                possible = False
-                break
+            if 'blue' in c and amountBlue(c) > minBlue:
+                minBlue = amountBlue(c)
 
-            if 'green' in c and not checkGreen(c):
-                possible = False
-                break
+            if 'green' in c and amountGreen(c) > minGreen:
+                minGreen = amountGreen(c)
 
-    if possible:
-        games.append(gid)
+    games.append(minRed * minBlue * minGreen)
 
 print(sum(games))
